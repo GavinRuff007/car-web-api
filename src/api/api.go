@@ -12,11 +12,13 @@ func InitServer() {
 	cfg := config.GetConfig()
 	r := gin.New()
 	r.Use(gin.Logger(), gin.Recovery())
+	api := r.Group("/api")
 
-	v1 := r.Group("/api/v1")
+	v1 := api.Group("/v1")
 	{
 		health := v1.Group("/health")
 		routers.Health(health)
 	}
+
 	r.Run(fmt.Sprintf(":%d", cfg.Server.Port))
 }
